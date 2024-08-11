@@ -1,4 +1,4 @@
-import AddExpense from "./AddExpense";
+import AddExpense from "./addExpense/AddExpense";
 import ExpenseList from "./ExpenseList";
 import ExpensesByCategory from "./ExpensesByCategory";
 import ExpensesTrend from "./ExpenseTrends";

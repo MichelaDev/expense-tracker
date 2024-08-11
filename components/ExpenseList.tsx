@@ -1,4 +1,4 @@
-import React from "react";
+import { formatDate } from "@/utils/utils";
 
 interface ExpenseListProps {
   id: number;
@@ -9,6 +9,7 @@ interface ExpenseListProps {
 }
 
 const ExpenseList = ({ data }: { data: ExpenseListProps[] }) => {
+  
   return (
     <div className="w-full h-80 text-sm lg:text-base rounded overflow-auto">
       <table className="table-auto w-full h-full rounded">
@@ -24,8 +25,8 @@ const ExpenseList = ({ data }: { data: ExpenseListProps[] }) => {
         <tbody>
           {data.map((el, index) => (
             <tr className={`${index % 2 !== 0 && "bg-white"}`} key={el.id}>
-              <td className="p-2 border border-primary">
-                {new Date(el.date).toLocaleDateString()}
+              <td className="p-2 border border-primary" suppressHydrationWarning>
+                {formatDate(el.date, "DD/MM/YY")}
               </td>
               <td className="p-2 border border-primary">{el.category}</td>
               <td className="p-2 border border-primary">{el.description}</td>
