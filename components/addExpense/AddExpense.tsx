@@ -5,26 +5,10 @@ import CategoryForm from "./CategoryForm";
 import ExpenseForm from "./ExpenseForm";
 import {UserContext} from "../UserContext";
 import { CategoryType } from "@/types";
-import { GetCategories } from "./actions";
 
-const AddExpense = () => {
+const AddExpense = ({categories}: {categories: CategoryType[]}) => {
   const user = useContext(UserContext);
   const [isCategory, setIsCategory] = useState(false);
-
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-
-  const fetchCategories = async () => {
-    try {
-      const res = await GetCategories();
-      setCategories(res);
-    } catch(e) {
-      console.warn(e)
-    }
-  }
-
-  useEffect(() => {
-    fetchCategories()
-  }, [])
 
   return (
     <>

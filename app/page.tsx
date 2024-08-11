@@ -5,10 +5,10 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 export default async function Home() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
 
-  const { data } = await supabase.auth.getUser();
+  const supabaseClient = createClient(cookies());
+
+  const { data } = await supabaseClient.auth.getUser();
 
   return (
     <UserContextProvider data={data.user}>

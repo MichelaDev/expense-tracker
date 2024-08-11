@@ -95,7 +95,7 @@ const FakeDashboard = () => {
           <ExpensesByCategory expensesByCategory={expensesByCategory} />
         </Card>
         <Card title="Add expense">
-          <AddExpense />
+          <AddExpense categories={[]} />
         </Card>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 h-[60vh]">

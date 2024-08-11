@@ -23,7 +23,7 @@ const ExpenseList = ({ data }: { data: ExpenseListProps[] }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((el, index) => (
+          {data.sort((a, b) => Number(new Date(a.date)) + Number(new Date(b.date))).map((el, index) => (
             <tr className={`${index % 2 !== 0 && "bg-white"}`} key={el.id}>
               <td className="p-2 border border-primary" suppressHydrationWarning>
                 {formatDate(el.date, "DD/MM/YY")}

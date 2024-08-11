@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
-import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +17,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-
-  const { data } = await supabase.auth.getUser();
+  const supabaseClient = createClient(cookies());
+  const { data } = await supabaseClient.auth.getUser();
 
   return (
     <html lang="en">

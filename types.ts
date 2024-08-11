@@ -1,6 +1,6 @@
 
 export interface ExpenseType {
-  date: Date,
+  date: string,
   category: string,
   description: string,
   amount: number,

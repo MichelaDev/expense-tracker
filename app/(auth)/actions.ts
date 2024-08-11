@@ -1,4 +1,5 @@
 "use server";
+
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -20,9 +21,7 @@ export const registerAction = async (
     return { message: "", error: "Password is different" };
   }
 
-  const cookieStore = cookies()
-  const supabaseClient = createClient(cookieStore);
-
+  const supabaseClient = createClient(cookies());
   const { error } = await supabaseClient.auth.signUp({
     email,
     password,
@@ -36,12 +35,11 @@ export const registerAction = async (
 };
 
 export const loginAction = async (prevState: FormState, formData: FormData) => {
-  const cookieStore = cookies()
-  const supabaseClient = createClient(cookieStore);
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
+  const supabaseClient = createClient(cookies());
   const { error } = await supabaseClient.auth.signInWithPassword({
     email,
     password,

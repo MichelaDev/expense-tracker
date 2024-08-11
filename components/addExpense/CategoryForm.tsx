@@ -1,13 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button";
 import { CategoryType } from "@/types";
-import { GetCategories, InsertNewCategory } from "./actions";
+import { DeleteCategory, InsertNewCategory } from "./actions";
 
 const CategoryForm = ({ categories }: { categories: CategoryType[] }) => {
-  const [newCategory, setNewCategory] = useState("");
+  const [newCategory, setNewCategory] = useState(""); 
+  const [error, setError] = useState<string>(); 
 
-  const handleSubmit = () => {
-    InsertNewCategory({newCategory});
+  const handleSubmit = async () => {
+    try {
+      const res = await InsertNewCategory({newCategory});
+      if(res.error) {
+        setError(res.error.code)
+        return
+      }
+      setNewCategory("");
+    } catch(e){
+      console.warn(e)
+    }
+  }
+  
+  const handleDelete = (id: string) => {
+    DeleteCategory({id});
   }
 
   return (
@@ -16,7 +30,7 @@ const CategoryForm = ({ categories }: { categories: CategoryType[] }) => {
       <ul className="max-h-64 overflow-auto px-3 rounded border-b border-primary">
         {categories?.map((category) => (
           <li key={category.id} className="flex items-center pb-2 gap-2">
-            <button>
+            <button onClick={() => handleDelete(category.id)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -47,6 +61,7 @@ const CategoryForm = ({ categories }: { categories: CategoryType[] }) => {
         />
         <Button onClick={handleSubmit}>Add</Button>
       </div>
+      {error && <p className="text-red-600 text-sm">{error === "23505" ? "Category already exists" : error}</p>}
     </div>
   );
 };
