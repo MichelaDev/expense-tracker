@@ -1,6 +1,5 @@
 "use server"
 
-import { ExpenseType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { FormState } from "./insert";
@@ -14,7 +13,7 @@ export const updateExpense = async (
 
   const id = formData.get("id") as string;
 
-  if(!id) return { message: "", error: "Invalid ID" };
+  if(!id) return { message: {}, error: "Invalid ID" };
 
   const date = formData.get("date") as string;
   const category = formData.get("category") as string;
