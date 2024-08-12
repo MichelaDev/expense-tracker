@@ -7,6 +7,7 @@ import { CategoryType, ExpenseType } from "@/types";
 import { FormState, insertNewExpense } from "../actions/insert";
 import { useFormState } from "react-dom";
 import { updateExpense } from "../actions/update";
+import FormButton from "../ui/FormButton";
 
 const initialState: FormState = {
   message: {},
@@ -55,6 +56,7 @@ const ExpenseForm = ({
           name="date"
           type="date"
           className="rounded border border-primary bg-secondary p-2"
+          max={formatDate(new Date(), "yyyy-MM-DD")}
           defaultValue={expense?.date ? formatDate(expense.date, "yyyy-MM-DD") : formatDate(new Date(), "yyyy-MM-DD")}
         />
         {state.message.date && (
@@ -104,9 +106,9 @@ const ExpenseForm = ({
           <p className="text-sm text-red-600">{state.message.amount}</p>
         )}
       </div>
-      <Button full attributes={{ type: "submit" }}>
+      <FormButton>
         {type === "insert" ? "Add expense" : "Update expense"}
-      </Button>
+      </FormButton>
       <p className="text-sm text-red-600">{state.error}</p>
     </form>
   );

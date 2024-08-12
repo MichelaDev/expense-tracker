@@ -1,15 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Button from "../ui/Button";
 import { CategoryType } from "@/types";
 import { InsertNewCategory } from "../actions/insert";
 import { deleteCategory } from "../actions/delete";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import Spinner from "../ui/Spinner";
 
-const CategoryForm = ({ user, categories }: { user: User | null, categories: CategoryType[] }) => {
+const CategoryForm = ({
+  user,
+  categories,
+}: {
+  user: User | null;
+  categories: CategoryType[];
+}) => {
   const router = useRouter();
   const [newCategory, setNewCategory] = useState("");
   const [error, setError] = useState<string>();
+  const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = async () => {
     if (!user) {
@@ -17,6 +25,7 @@ const CategoryForm = ({ user, categories }: { user: User | null, categories: Cat
       return;
     }
     try {
+      setIsPending(true);
       const res = await InsertNewCategory({ newCategory });
       if (res.error) {
         setError(res.error.code);
@@ -25,6 +34,8 @@ const CategoryForm = ({ user, categories }: { user: User | null, categories: Cat
       setNewCategory("");
     } catch (e) {
       console.warn(e);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -35,8 +46,8 @@ const CategoryForm = ({ user, categories }: { user: User | null, categories: Cat
     }
     try {
       deleteCategory({ id });
-    } catch(e) {
-      console.warn(e)
+    } catch (e) {
+      console.warn(e);
     }
   };
 
@@ -75,7 +86,9 @@ const CategoryForm = ({ user, categories }: { user: User | null, categories: Cat
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
-        <Button onClick={handleSubmit}>Add</Button>
+        <Button onClick={handleSubmit}>
+          {isPending ? <Spinner /> : "Add"}
+        </Button>
       </div>
       {error && (
         <p className="text-sm text-red-600">

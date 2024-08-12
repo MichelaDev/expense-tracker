@@ -2,7 +2,7 @@ const Spinner = () => (
   <div role="status">
     <svg
       aria-hidden="true"
-      className="text-myGreen mr-2 h-4 w-4 animate-spin fill-white"
+      className="text-secondary mr-2 h-5 w-5 animate-spin fill-white"
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
