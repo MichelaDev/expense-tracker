@@ -11,7 +11,7 @@ export const deleteCategory = async ({ id }: { id: string }) => {
     .delete()
     .eq("id", id);
 
-    console.log(error)
+    if(error) console.log(error)
 
   revalidatePath("/");
 };
@@ -23,7 +23,7 @@ export const deleteExpense = async ({ id }: { id: string }) => {
     .delete()
     .eq("id", id);
 
-    console.log(error)
+    if(error) console.log(error)
 
   revalidatePath("/");
 };

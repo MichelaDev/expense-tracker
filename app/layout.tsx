@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Expense tracker App",
+  title: "Expense tracker app",
   description: "Easily manage your expenses and stay on top of your finances",
 };
 

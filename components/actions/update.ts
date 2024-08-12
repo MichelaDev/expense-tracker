@@ -23,8 +23,6 @@ export const updateExpense = async (
 
   const newExpense = { id, date: new Date(date), category, description, amount };
 
-  console.log(newExpense, id)
-
   const validation = schema.safeParse(newExpense);
 
   if (!validation.success) {
