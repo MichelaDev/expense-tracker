@@ -20,7 +20,7 @@ Chart.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const ExpensesTrend = ({ data }: { data: { [key: string]: number } }) => {
@@ -52,19 +52,19 @@ const ExpensesTrend = ({ data }: { data: { [key: string]: number } }) => {
   };
   return (
     // <div className="min-h-80">
-      <Line
-        data={chartData}
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: "bottom",
-            },
+    <Line
+      data={chartData}
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: "bottom",
           },
-        }}
-      />
+        },
+      }}
+    />
     // </div>
   );
 };

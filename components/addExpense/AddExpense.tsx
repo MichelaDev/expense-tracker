@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import CategoryForm from "./CategoryForm";
 import ExpenseForm from "./ExpenseForm";
-import {UserContext} from "../UserContext";
+import { UserContext } from "../UserContext";
 import { CategoryType } from "@/types";
 
-const AddExpense = ({categories}: {categories: CategoryType[]}) => {
+const AddExpense = ({ categories }: { categories: CategoryType[] }) => {
   const user = useContext(UserContext);
   const [isCategory, setIsCategory] = useState(false);
 
@@ -14,7 +14,7 @@ const AddExpense = ({categories}: {categories: CategoryType[]}) => {
     <>
       <button
         onClick={() => setIsCategory(!isCategory)}
-        className="flex justify-end items-center ml-auto text-sm gap-1 hover:text-tertiary"
+        className="ml-auto flex items-center justify-end gap-1 text-sm hover:text-tertiary"
       >
         {isCategory ? "Return to expense" : "Go to categories"}
         <svg
@@ -32,7 +32,11 @@ const AddExpense = ({categories}: {categories: CategoryType[]}) => {
           />
         </svg>
       </button>
-      {isCategory ? <CategoryForm categories={categories} /> : <ExpenseForm categories={categories} user={user} />}
+      {isCategory ? (
+        <CategoryForm categories={categories} user={user} />
+      ) : (
+        <ExpenseForm type="insert" categories={categories} user={user} />
+      )}
     </>
   );
 };

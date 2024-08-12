@@ -1,5 +1,5 @@
 import AddExpense from "./addExpense/AddExpense";
-import ExpenseList from "./ExpenseList";
+import ExpenseList from "./ExpenseList/ExpenseList";
 import ExpensesByCategory from "./ExpensesByCategory";
 import ExpensesTrend from "./ExpenseTrends";
 import TotalExpenses from "./TotalExpenses";
@@ -8,48 +8,50 @@ import Card from "./ui/Card";
 const FakeDashboard = () => {
   const expenses = [
     {
-      id: 1,
+      id: "1",
       date: "2023-01-01",
       category: "Groceries",
       description: "Weekly grocery shopping",
       amount: 120.45,
     },
     {
-      id: 2,
+      id: "2",
       date: "2023-02-05",
       category: "Utilities",
       description: "Electricity bill",
       amount: 87.32,
     },
     {
-      id: 3,
+      id: "3",
       date: "2023-03-10",
       category: "Entertainment",
       description: "Movie tickets",
       amount: 25.99,
     },
     {
-      id: 4,
+      id: "4",
       date: "2023-03-15",
       category: "Transportation",
       description: "Gas for the car",
       amount: 42.67,
     },
     {
-      id: 5,
+      id: "5",
       date: "2023-04-20",
       category: "Groceries",
       description: "Costco trip",
       amount: 189.78,
     },
     {
-      id: 6,
+      id: "6",
       date: "2023-06-25",
       category: "Utilities",
       description: "Internet bill",
       amount: 65.99,
     },
   ];
+
+  const categories = [{name: "Groceries", id: "1"},{name: "Entertainment", id: "2"},{name: "Transportation", id: "3"},{name: "Utilities", id: "4"}]
   const totalExpenses = 532.2;
   const expensesByCategory: {
     [key: string]: { total: number; count: number };
@@ -87,7 +89,7 @@ const FakeDashboard = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-6 lg:min-h-[50vh]">
+      <div className="grid w-full grid-cols-1 gap-6 lg:min-h-[50vh] lg:grid-cols-3">
         <Card title="Total expenses">
           <TotalExpenses totalExpenses={totalExpenses} />
         </Card>
@@ -95,15 +97,15 @@ const FakeDashboard = () => {
           <ExpensesByCategory expensesByCategory={expensesByCategory} />
         </Card>
         <Card title="Add expense">
-          <AddExpense categories={[]} />
+          <AddExpense categories={categories} />
         </Card>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 h-[60vh]">
+      <div className="grid h-[60vh] w-full grid-cols-1 gap-6 lg:grid-cols-2">
         <Card title="Expense trend">
           <ExpensesTrend data={expensesTrend} />
         </Card>
         <Card title="Expense list">
-          <ExpenseList data={expenses} />
+          <ExpenseList data={expenses} categories={categories} />
         </Card>
       </div>
     </>

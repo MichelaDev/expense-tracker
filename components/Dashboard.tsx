@@ -3,17 +3,14 @@ import TotalExpenses from "./TotalExpenses";
 import ExpensesByCategory from "./ExpensesByCategory";
 import AddExpense from "./addExpense/AddExpense";
 import ExpensesTrend from "./ExpenseTrends";
-import ExpenseList from "./ExpenseList";
+import ExpenseList from "./ExpenseList/ExpenseList";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 const Dashboard = async () => {
-
   const supabaseClient = createClient(cookies());
 
-  const { data, error } = await supabaseClient
-  .from('expenses')
-  .select()
+  const { data, error } = await supabaseClient.from("expenses").select();
 
   const { data: dataCat } = await supabaseClient.from("categories").select();
 
@@ -55,7 +52,7 @@ const Dashboard = async () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-6 lg:min-h-[50vh]">
+      <div className="grid w-full grid-cols-1 gap-6 lg:min-h-[50vh] lg:grid-cols-3">
         <Card title="Total expenses">
           <TotalExpenses totalExpenses={totalExpenses} />
         </Card>
@@ -66,12 +63,12 @@ const Dashboard = async () => {
           <AddExpense categories={dataCat || []} />
         </Card>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 h-[60vh]">
+      <div className="grid h-[60vh] w-full grid-cols-1 gap-6 lg:grid-cols-2">
         <Card title="Expense trend">
           <ExpensesTrend data={expensesTrend} />
         </Card>
         <Card title="Expense list">
-          <ExpenseList data={data || []} />
+          <ExpenseList data={data || []} categories={dataCat || []} />
         </Card>
       </div>
     </>

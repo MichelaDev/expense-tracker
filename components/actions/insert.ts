@@ -4,20 +4,13 @@ import { CategoryType, ExpenseType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { z } from "zod";
+import { schema } from "./utils";
 
 export type FormState = {
   message: {[key: string]: string};
   error?: string;
   success?: boolean;
 };
-
-const schema = z.object({
-  date: z.string().min(1,"Date is required"),
-  category: z.string().min(1,"Category is required"),
-  description: z.string(),
-  amount: z.string().min(1,"Amount is required"),
-});
 
 export const insertNewExpense = async (
   prevState: FormState,
@@ -64,16 +57,4 @@ export const InsertNewCategory = async ({
   revalidatePath("/");
 
   return {error}
-};
-
-export const DeleteCategory = async ({ id }: { id: string }) => {
-  const supabaseClient = createClient(cookies());
-  const { error } = await supabaseClient
-    .from("categories")
-    .delete()
-    .eq("id", id);
-
-    console.log(error)
-
-  revalidatePath("/");
 };

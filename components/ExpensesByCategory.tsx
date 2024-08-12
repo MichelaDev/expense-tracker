@@ -19,7 +19,7 @@ const ExpensesByCategory = ({
               {total.toFixed(2)} € ({count} items)
             </div>
           </li>
-        )
+        ),
       )}
     </ul>
   );

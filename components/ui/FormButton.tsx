@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { useFormStatus } from "react-dom";
@@ -12,7 +12,7 @@ interface FormButtonProps {
 const FormButton = ({ children }: FormButtonProps) => {
   const { pending } = useFormStatus();
   return (
-    <Button attributes={{type: "submit"}}>
+    <Button attributes={{ type: "submit" }}>
       {!pending && children}
       {pending && <Spinner />}
     </Button>

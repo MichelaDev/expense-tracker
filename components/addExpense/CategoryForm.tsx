@@ -1,35 +1,51 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button";
 import { CategoryType } from "@/types";
-import { DeleteCategory, InsertNewCategory } from "./actions";
+import { InsertNewCategory } from "../actions/insert";
+import { deleteCategory } from "../actions/delete";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
-const CategoryForm = ({ categories }: { categories: CategoryType[] }) => {
-  const [newCategory, setNewCategory] = useState(""); 
-  const [error, setError] = useState<string>(); 
+const CategoryForm = ({ user, categories }: { user: User | null, categories: CategoryType[] }) => {
+  const router = useRouter();
+  const [newCategory, setNewCategory] = useState("");
+  const [error, setError] = useState<string>();
 
   const handleSubmit = async () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     try {
-      const res = await InsertNewCategory({newCategory});
-      if(res.error) {
-        setError(res.error.code)
-        return
+      const res = await InsertNewCategory({ newCategory });
+      if (res.error) {
+        setError(res.error.code);
+        return;
       }
       setNewCategory("");
-    } catch(e){
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    try {
+      deleteCategory({ id });
+    } catch(e) {
       console.warn(e)
     }
-  }
-  
-  const handleDelete = (id: string) => {
-    DeleteCategory({id});
-  }
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <h4 className="px-3 text-lg">Categories</h4>
-      <ul className="max-h-64 overflow-auto px-3 rounded border-b border-primary">
+      <ul className="max-h-64 overflow-auto rounded border-b border-primary px-3">
         {categories?.map((category) => (
-          <li key={category.id} className="flex items-center pb-2 gap-2">
+          <li key={category.id} className="flex items-center gap-2 pb-2">
             <button onClick={() => handleDelete(category.id)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -50,18 +66,22 @@ const CategoryForm = ({ categories }: { categories: CategoryType[] }) => {
           </li>
         ))}
       </ul>
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap items-center gap-2">
         <label htmlFor="newCategory">New category</label>
         <input
           id="newCategory"
           type="text"
-          className="p-1 bg-secondary border border-primary rounded"
+          className="rounded border border-primary bg-secondary p-1"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
         <Button onClick={handleSubmit}>Add</Button>
       </div>
-      {error && <p className="text-red-600 text-sm">{error === "23505" ? "Category already exists" : error}</p>}
+      {error && (
+        <p className="text-sm text-red-600">
+          {error === "23505" ? "Category already exists" : error}
+        </p>
+      )}
     </div>
   );
 };
